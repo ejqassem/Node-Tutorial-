@@ -98,19 +98,50 @@ What exactly does app.get() accomplish? Before I explain that code, here is what
   }
 ```
 
-Before I list off the advantages of Express, let me go through exactly what this above code is doing: 
-1) Requiring the built-in http module to access the createServer method
-2) Defining a port for readablility 
-3) Creating a server and referencing the function in the server variable passing the function the handleRequest argument 
-4) Defining a switch statement to explictly define each route the user is accessing/request
-  4a) Writing a header to indicate the data type that is being sent back to the client 
-  4b) Sending back html 
-5) Initialize the server to listen to a particular PORT (8080) *This step is important* 
-  --If you forget to have your server listen to a PORT, none of your code will work.
+Before we dive back into Express, let me go through exactly what this above code is doing: 
+1. Requiring the built-in http module to access the createServer method
+2. Defining a port for readablility 
+3. Initializing a server variable and referencing the createServer method on the http object. Then, passing the handleRequest argument to the createServer method 
+   - All incoming requests are passed to the handleRequest function 
+4. Defining a switch statement to explictly define each route the user is accessing/request
+   - Writing a header to indicate the data type that is being sent back to the client 
+   - Sending the client back html
+      - This could be any browser-supported data-type: txt/json/xml/html/css/javascript/etc...
+5. Initialize the server to listen to a particular PORT (8080) --*This step is important* 
+   * If you forget to have your server listen to a PORT, none of your code will work.
   
 This above code gets more complicated once data is sent from the client and starts to become difficult to read.
 Fortunately, express.js makes this process much easier. 
-1) You no longer need to explictly write a header to define the data type for the browser to render the returned data/file
-2) You no longer need to contain all your routing/data handling inside of the handleRequest function
-3) Extended functionality via the express.js framework 
-4) More readable code with the express.js framework(no more call-back hell) 
+1. You no longer need to explictly write a header to define the data type for the browser to render the returned data/file
+2. You no longer need to contain all your routing/data handling inside of the handleRequest function
+   - This can become increasingly difficult to read with a more complicated routing mechanism 
+   - Additionally, any bug inside your handleRequest function will render your server-side code useless 
+      - Modularization in express.js helps to prevent your entire code block from crashing in the event of a bug
+3. Extended functionality via the express.js framework 
+
+
+#### Let's run a similar example serving up basic html using express.js:
+```javascript 
+  app.get('/', function(req, res) {
+    res.send('<h1>Hello World<h1>'); 
+  }); 
+```
+#### Now you can see why routing is much easier with express, but how about serving up files to the client? 
+In the http module approach, this can be done in a rather crude way via the fs.readFile("path/to/file", function(err, data){}) method and sending the data to the client via res.end(data). 
+For demonstration purposes, here is a depiction of what this handleRequest function would look like: 
+```javascript 
+  function handleRequest(request, response) {
+    switch(req.url) {
+      case "/" 
+        fs.readFile("home.html", function(err, data) {
+          res.writeHead(200, {"Content-Type": "text/html"}); 
+          res.end(data); 
+          break;
+      default: 
+        fs.readFile("404.html", function(err, data) {
+          res.writeHead(404, {"Content-Type": "text/html"});
+          res.send(data) 
+       }
+     }
+  }
+```
