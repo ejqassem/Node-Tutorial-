@@ -31,4 +31,86 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 ```
+### 4) Let's initialize some data to manipulate in later code: 
+```javascript 
+var characters = [{
+  routeName : "goku"
+  name: "Goku",
+  powerLevel: 9001, 
+  age: 40
+}, 
+{
+  routeName: "vegeta", 
+  name: "Vegeta", 
+  powerLevel: 9000,
+  age: 42
+}];
+```
 
+### 5) Routing: 
+Routing is the meat-and-potatoes of the express.js node module. Basically, developers define application end-points in the server-side code and how they respond to client requests. A basic example would be navigating to https://www.google.com and moving to https://www.google.com/maps. Once the client navigates to the google maps page, the google server needs to load, or serve, the client the maps page. Users typically navigate using buttons, but the functionality is still the same. These endpoints need to be re-directed or routed via the server.  
+Sooooo.... How do we set up a route? 
+
+Before we move on to a more complicated example, here is a very simple 'Hello world' example to demonstrate routing of a single-page app using express.js(This example was borrowed from https://expressjs.com/en/guide/routing.html). 
+
+```javascript 
+var express = require('express')
+var app = express()
+
+// respond with "hello world" when a GET request is made to the homepage
+app.get('/', function (req, res) {
+  res.send('hello world')
+})
+```
+High level overview of the above code: 
+  1) Declaration of Dependencies(Express)
+  2) Setting a variable, app, equal to express() for future reference 
+  3) Setting up basic routing the root endpoint for the 'get' method 
+  4) Sending the client back and writing 'hello world' to the page 
+  
+What exactly does app.get() accomplish? Before I explain that code, here is what the code app.get() simplifies: 
+```javascript 
+//require the http built-in node module 
+  var http = require('http'); 
+  
+ //declare a variable to for PORT 
+  var PORT = 8080; 
+  
+ //create a server and handle any incoming request from the client 
+  var server = http.createServer(handleRequest); 
+  
+ //function handleRequest to handle any incoming data from client via a conditional statement 
+  function handleRequest(req, res) {
+    switch(req.url){
+    case "/":
+      res.writeHead(200, {"Content-Type": "text/html"}); 
+      res.end("<h1>Hello World<h1>"); 
+      break; 
+     default: 
+      res.writeHead(404, {"Content-Type": "text/html"}); 
+      res.end("<h1> 404, page not found</h1>"); 
+    }
+  }
+  
+  //initialize server to listen to PORT 
+  server.listen(PORT, function() {
+    console.log("You are now listening to " + PORT); 
+  }
+```
+
+Before I list off the advantages of Express, let me go through exactly what this above code is doing: 
+1) Requiring the built-in http module to access the createServer method
+2) Defining a port for readablility 
+3) Creating a server and referencing the function in the server variable passing the function the handleRequest argument 
+4) Defining a switch statement to explictly define each route the user is accessing/request
+  4a) Writing a header to indicate the data type that is being sent back to the client 
+  4b) Sending back html 
+5) Initialize the server to listen to a particular PORT (8080) *This step is important* 
+  --If you forget to have your server listen to a PORT, none of your code will work.
+  
+This above code gets more complicated once data is sent from the client and starts to become difficult to read.
+Fortunately, express.js makes this process much easier. 
+1) You no longer need to explictly write a header to define the data type for the browser to render the returned data/file
+2) You no longer need to contain all your routing/data handling inside of the handleRequest function
+3) Extended functionality via the express.js framework 
+4) More readable code with the express.js framework(no more call-back hell) 
