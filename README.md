@@ -1,9 +1,9 @@
 # Node-Tutorial-
 Basic walk-through of node.js javascript framework 
 
-This application is designed to give the beginning javascript developer a basic understanding of how node.js works and some basic examples demonstrating its uses. This tutorial is being built as a personal reference, but if there any issues in my code please email: ejqassem@gmail.com or create an issue on this repo. 
+This application is designed to give the beginning javascript developer a basic understanding of how node.js works, in conjunction with express and other node modules, and some basic examples demonstrating its uses. This tutorial is being built as a personal reference, but if there any issues in my code please email: ejqassem@gmail.com or create an issue on this repo. 
 
-# Getting started with Node.js(Express): 
+# Getting started with Node.js(Express.js): 
 ### 1) With any node.js application, it is important to start off importing dependencies:
 
 ```javascript
@@ -64,8 +64,8 @@ app.get('/', function (req, res) {
 ```
 High level overview of the above code: 
   1) Declaration of Dependencies(Express)
-  2) Setting a variable, app, equal to express() for future reference 
-  3) Setting up basic routing the root endpoint for the 'get' method 
+  2) Initializing a variable, app, to reference the express() method
+  3) Setting up basic routing for the root endpoint('/') for the http 'get' method 
   4) Sending the client back and writing 'hello world' to the page 
   
 What exactly does app.get() accomplish? Before I explain that code, here is what the code app.get() simplifies: 
@@ -111,7 +111,15 @@ Before we dive back into Express, let me go through exactly what this above code
    * If you forget to have your server listen to a PORT, none of your code will work.
   
 This above code gets more complicated once data is sent from the client and starts to become difficult to read.
-Fortunately, express.js makes this process much easier. 
+Fortunately, express.js makes this process much easier.
+
+#### Let's run a revisit an example serving up basic html using express.js:
+```javascript 
+  app.get('/', function(req, res) {
+    res.send('Hello World'); 
+  }); 
+```
+If that isn't enough to sell you on express.js, let me list out a few advantages to change your mind: 
 1. You no longer need to explictly write a header to define the data type for the browser to render the returned data/file
 2. You no longer need to contain all your routing/data handling inside of the handleRequest function
    - This can become increasingly difficult to read with a more complicated routing mechanism 
@@ -119,13 +127,6 @@ Fortunately, express.js makes this process much easier.
       - Modularization in express.js helps to prevent your entire code block from crashing in the event of a bug
 3. Extended functionality via the express.js framework 
 
-
-#### Let's run a similar example serving up basic html using express.js:
-```javascript 
-  app.get('/', function(req, res) {
-    res.send('<h1>Hello World<h1>'); 
-  }); 
-```
 #### Now you can see why routing is much easier with express, but how about serving up files to the client? 
 In the http module approach, this can be done in a rather crude way via the fs.readFile("path/to/file", function(err, data){}) method and sending the data to the client via res.end(data). 
 For demonstration purposes, here is a depiction of what this handleRequest function would look like: 
