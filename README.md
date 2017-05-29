@@ -251,10 +251,10 @@ Here is an example using express to serve up the same "home.html" and "404.html"
 
 A few take-aways from the above express example: 
 1. No longer need to use a switch statement/conditional for routing purpose
- * This modularization prevents your entire app from crashing in the event of a bug in one your routes 
-  * That specific url would still not render properly for the client 
+   - This modularization prevents your entire app from crashing in the event of a bug in one your routes 
+   - That specific url would still not render properly for the client 
 2. You are now able to send whole files without the need to use the node file-system module 
 3. How to define a 404 error: 
- * This is the first example of using app.use() in this file. 
-  * At this point it is important to note that app.use() handles all HTTP methods on a specific path/domain, as opposed to app.get() which only responds to HTTP get requests
-   * In this case, app.use() allows the back-end developer to respond to any HTTP request to a route that does not have a defined/handled endpoint 
+   - This is the first example of using app.use() in this file. 
+   - At this point it is important to note that app.use() handles all HTTP methods on a specific path/domain, as opposed to app.get() which only responds to HTTP get requests
+      - In this case, app.use() allows the back-end developer to respond to any HTTP request to a route that does not have a defined/handled endpoint 
